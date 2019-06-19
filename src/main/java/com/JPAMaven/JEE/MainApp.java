@@ -26,11 +26,11 @@ public class MainApp {
 		
 		//getCustomer(3);
 
-		//getCustomers();
+		getCustomers();
 		
 		//changeFirstName(1, "Panos");
 		
-		deleteCustomer(4);
+		//deleteCustomer(4);
 		ENTITY_MANAGER_FACTORY.close();
 
 		
@@ -97,25 +97,27 @@ public class MainApp {
 	public static void getCustomers() {
 		
 		EntityManager em = ENTITY_MANAGER_FACTORY.createEntityManager();
-		String query = "SELECT c FROM customer c WHERE c.id is NOT NULL";
-        TypedQuery<Customer> tq = em.createQuery(query, Customer.class);
-        List<Customer> custs;
-        
-        try {
-        	
-        	custs = tq.getResultList();
-        	System.out.println(custs);
-        	
-        }
-        catch(NoResultException ex){
-        	System.out.println("No results found into DB");
-        	ex.printStackTrace();
-        }
-        finally {
-        	
-        	em.close();
-        }
+//		String query = "SELECT c FROM customer c WHERE c.id is NOT NULL";
+//        TypedQuery<Customer> tq = em.createQuery(query, Customer.class);
+//        List<Customer> custs;
+//        
+//        try {
+//        	
+//        	custs = tq.getResultList();
+//        	System.out.println(custs);
+//        	
+//        }
+//        catch(NoResultException ex){
+//        	System.out.println("No results found into DB");
+//        	ex.printStackTrace();
+//        }
+//        finally {
+//        	
+//        	em.close();
+//        }
 		
+		em.createNamedQuery("Customer.findAll").getResultList();
+
 	}
 	
 	public static void changeFirstName(int id, String firstName) {

@@ -5,6 +5,7 @@ import javax.persistence.*;
 
 @Entity
 @Table(name = "customer") //the name of the table in DB
+@NamedQuery(name = "Customer.findAll", query = "SELECT c FROM customer c")
 public class Customer implements Serializable {
 
 	@Id // define that is the primary key of the table
