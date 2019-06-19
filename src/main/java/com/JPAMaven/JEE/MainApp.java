@@ -1,5 +1,7 @@
 package com.JPAMaven.JEE;
 
+import java.util.List;
+
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.EntityTransaction;
@@ -15,15 +17,16 @@ public class MainApp {
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub
 
-		System.out.println("Add objects to the 'customers' table of the DB.");
+		//System.out.println("Add objects to the 'customers' table of the DB.");
 		
 //		addCustomer(1, "Kostis", "Prodromou");
 //		addCustomer(2, "Thomas", "Prodromou");
 //		addCustomer(3, "John", "Prodromou");
 //		addCustomer(4, "Chris", "Prodromou");
 		
-		getCustomer(3);
+		//getCustomer(3);
 
+		getCustomers();
 		ENTITY_MANAGER_FACTORY.close();
 
 		
@@ -74,6 +77,30 @@ public class MainApp {
         	
         	cust = tq.getSingleResult();
         	System.out.println(cust.getFirstName() + " " + cust.getLastName());
+        	
+        }
+        catch(NoResultException ex){
+        	System.out.println("No results found into DB");
+        	ex.printStackTrace();
+        }
+        finally {
+        	
+        	em.close();
+        }
+		
+	}
+	
+	public static void getCustomers() {
+		
+		EntityManager em = ENTITY_MANAGER_FACTORY.createEntityManager();
+		String query = "SELECT c FROM customer c WHERE c.id is NOT NULL";
+        TypedQuery<Customer> tq = em.createQuery(query, Customer.class);
+        List<Customer> custs;
+        
+        try {
+        	
+        	custs = tq.getResultList();
+        	System.out.println(custs);
         	
         }
         catch(NoResultException ex){
