@@ -28,7 +28,9 @@ public class MainApp {
 
 		//getCustomers();
 		
-		changeFirstName(1, "Panos");
+		//changeFirstName(1, "Panos");
+		
+		deleteCustomer(4);
 		ENTITY_MANAGER_FACTORY.close();
 
 		
@@ -128,6 +130,40 @@ public class MainApp {
 		
 			cust = em.find(Customer.class, id);
 			cust.setFirstName(firstName); // the parameter of the function
+			
+			em.persist(cust);
+			et.commit();
+			
+		}
+		
+		catch(Exception ex) {
+			
+			if(et != null) {
+				
+				et.rollback();
+			}
+			ex.printStackTrace();
+			
+		}
+		finally{
+			em.close();
+		}
+		
+	}
+	
+	
+	public static void deleteCustomer(int id) {
+		
+		EntityManager em = ENTITY_MANAGER_FACTORY.createEntityManager();
+		EntityTransaction et = null;
+		Customer cust = null;
+		try {
+			
+			et = em.getTransaction();
+			et.begin();
+		
+			cust = em.find(Customer.class, id); //finds into the db the customer that we  gonna delete
+			em.remove(cust);
 			
 			em.persist(cust);
 			et.commit();
