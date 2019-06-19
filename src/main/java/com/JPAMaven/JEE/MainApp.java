@@ -3,7 +3,9 @@ package com.JPAMaven.JEE;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.EntityTransaction;
+import javax.persistence.NoResultException;
 import javax.persistence.Persistence;
+import javax.persistence.TypedQuery;
 
 public class MainApp {
 
@@ -15,10 +17,12 @@ public class MainApp {
 
 		System.out.println("Add objects to the 'customers' table of the DB.");
 		
-		addCustomer(1, "Kostis", "Prodromou");
-		addCustomer(2, "Thomas", "Prodromou");
-		addCustomer(3, "John", "Prodromou");
-		addCustomer(4, "Chris", "Prodromou");
+//		addCustomer(1, "Kostis", "Prodromou");
+//		addCustomer(2, "Thomas", "Prodromou");
+//		addCustomer(3, "John", "Prodromou");
+//		addCustomer(4, "Chris", "Prodromou");
+		
+		getCustomer(3);
 
 		ENTITY_MANAGER_FACTORY.close();
 
@@ -55,6 +59,31 @@ public class MainApp {
 		finally{
 			em.close();
 		}
+		
+	}
+	
+	public static void getCustomer(int id) {
+		
+		EntityManager em = ENTITY_MANAGER_FACTORY.createEntityManager();
+		String query = "SELECT c FROM customer c WHERE c.id = :cust_ID";
+        TypedQuery<Customer> tq = em.createQuery(query, Customer.class);
+        tq.setParameter("cust_ID", id);
+        Customer cust = null;
+        
+        try {
+        	
+        	cust = tq.getSingleResult();
+        	System.out.println(cust.getFirstName() + " " + cust.getLastName());
+        	
+        }
+        catch(NoResultException ex){
+        	System.out.println("No results found into DB");
+        	ex.printStackTrace();
+        }
+        finally {
+        	
+        	em.close();
+        }
 		
 	}
 
